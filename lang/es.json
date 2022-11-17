@@ -1,0 +1,65 @@
+{
+  "contact": {
+    "title": "Pagina de Contacto"
+  },
+  "home": {
+    "title": "Pagina Principal"
+  },
+  "login": {
+    "wellcome": "Bienvenido",
+    "account": "Sin Cuenta?",
+    "register": "Registrate",
+    "signIn": "Iniciar Sesion",
+    "idHome": "ID Hogar",
+    "userName": "Nombre de Usuario",
+    "password": "Contraseña"
+  },
+  "homeform": {
+    "title": "Crear Casa",
+    "update": "Actualiza Casa",
+    "address": "Direccion",
+    "btnsave": "Guardar Casa",
+    "btnupdate": "Actualizar Casa",
+    "btnList": "Lista "
+  },
+  "userUpdate": {
+    "title": "Actualizar Usuario",
+    "role": "Rol de Usuario",
+    "idUser": "ID Usuario",
+    "master": "Maestro",
+    "user": "Usuario",
+    "btnUpdate": "Actualizar Usuario"
+  },
+  "accessForm": {
+    "title": "Crear Acceso",
+    "userName": "Nombre de Usuario",
+    "deviceName": "Nombre de Dispositivo",
+    "selectUser": "Selecciona Usuario",
+    "selectDevice": "Selecciona Dispositivo",
+    "btnGrant": "Otorgar Acceso",
+    "btnList": "Lista "
+  },
+  "deviceForm": {
+    "title": "Crear Dispositivo",
+    "update": "Actualizar Dispositivo",
+    "deviceName": "Nombre de Dispositivo",
+    "urlDevice": "URL del Dispositivo",
+    "roomName": "Nombre de Habitacion",
+    "selectRoom": "Selecciona Habitacion",
+    "btnsave": "Guardar Dispositivo",
+    "btnupdate": "Actualizar Dispositivo",
+    "btnList": "Lista "
+  },
+  "roomForm": {
+    "title": "Crear Habitacion",
+    "update": "Actualizar Habitacion",
+    "room": "Habitacion",
+    "roomName": "Nombre de Habitacion",
+    "idHome": "ID Casa",
+    "idRoom": "ID Habitacion",
+    "name": "Nombre",
+    "btnsave": "Guardar Habitacion",
+    "btnupdate": "Actualizar Habitacion",
+    "btnList": "Lista "
+  }
+}

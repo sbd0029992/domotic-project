@@ -1,0 +1,81 @@
+{
+  "contact": {
+    "title": "Contact Page"
+  },
+  "home": {
+    "title": "Home Page"
+  },
+  "login": {
+    "wellcome": "Wellcome",
+    "account": "No account?",
+    "register": "Sign In",
+    "signIn": "Sign In",
+    "idHome": "ID Home",
+    "userName": "User Name",
+    "password": "Password"
+  },
+  "homeform": {
+    "title": "Create Home",
+    "update": "Update Home",
+    "address": "Address",
+    "btnsave": "Save Home",
+    "btnupdate": "Update Home",
+    "btnList": "List "
+  },
+  "userUpdate": {
+    "title": "Update User",
+    "update": "Update User",
+    "address": "Address",
+    "btnsave": "Save User",
+    "btnupdate": "Update User",
+    "btnList": "List "
+  },
+  "userUpdate": {
+    "title": "Update User",
+    "role": "Role Name",
+    "idUser": "ID User",
+    "master": "Master",
+    "user": "User",
+    "btnUpdate": "Actualizar Usuario"
+  },
+  "registerPage": {
+    "title": "Registro",
+    "account": "Ya tienes una cuenta?",
+    "signIn": "Iniciar Sesion",
+    "idHome": "ID Hogar",
+    "userName": "Nombre de Usuario",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña"
+  },
+  "accessForm": {
+    "title": "Create Access",
+    "userName": "User Name",
+    "deviceName": "Device Name",
+    "selectUser": "Select User",
+    "selectDevice": "Select Device",
+    "btnGrant": "Grant Access",
+    "btnList": "List "
+  },
+  "deviceForm": {
+    "title": "Create Device",
+    "update": "Update Device",
+    "deviceName": "Device Name",
+    "urlDevice": "Url Device",
+    "roomName": "Room Name",
+    "selectRoom": "Select Room",
+    "btnsave": "Save Device",
+    "btnupdate": "Update Device",
+    "btnList": "List "
+  },
+  "roomForm": {
+    "title": "Create Room",
+    "update": "Update Room",
+    "room": "Room",
+    "name": "Name",
+    "roomName": "Room Name",
+    "address": "Address",
+    "btnsave": "Save Room",
+    "btnupdate": "Update Room",
+    "btnList": "List "
+  }
+}
