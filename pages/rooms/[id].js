@@ -2,9 +2,10 @@ import { Button, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React from "react";
-import { toast } from "react-toastify";
 import { makeStyles } from "@material-ui/core/styles";
 import style from "../../theme/style/Pages/EditPage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles(style);
 
@@ -47,6 +48,7 @@ function ProductPage({ room }) {
             </Button>
           </Grid>
         </Grid>
+        <ToastContainer />
       </Grid>
     </React.Fragment>
   );

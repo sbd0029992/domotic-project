@@ -26,6 +26,7 @@ const getRoom = async (req, res) => {
 const deleteRoom = async (req, res) => {
   try {
     const { id } = req.query;
+    console.log("🚀 ~ file: [id].js ~ line 29 ~ deleteRoom ~ id", id);
     await pool.query("DELETE FROM room WHERE id = ?", [id]);
     return res.status(204).json();
   } catch (error) {
