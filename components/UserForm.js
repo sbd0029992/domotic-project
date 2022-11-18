@@ -10,10 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles(style);
 export function UserForm({ userUpdate }) {
-  console.log(
-    "🚀 ~ file: UserForm.js ~ line 13 ~ UserForm ~ userUpdate",
-    userUpdate
-  );
   const router = useRouter();
 
   const [room, setRoom] = useState({

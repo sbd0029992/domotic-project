@@ -1,6 +1,5 @@
 import Head from "next/head";
 import React from "react";
-import withSession from "../lib/session";
 import Login from "./login";
 
 export default function Index(props) {

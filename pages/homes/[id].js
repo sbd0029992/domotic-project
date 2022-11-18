@@ -24,7 +24,11 @@ function ProductPage({ home }) {
   return (
     <React.Fragment>
       <Grid container className={classes.mainContainer}>
-        <Grid container className={classes.containerClasses}>
+        <Grid
+          style={{ marginTop: "0px" }}
+          container
+          className={classes.containerClasses}
+        >
           <Grid
             container
             className={classes.RoomName}

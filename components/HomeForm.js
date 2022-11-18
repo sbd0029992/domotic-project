@@ -1,21 +1,11 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import {
-  Box,
-  Button,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-  InputLabel,
-} from "@material-ui/core";
+import { Box, Button, Grid, Link, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import style from "../theme/style/Components/DeviceForm";
 import axios from "axios";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 
 const useStyles = makeStyles(style);
 export function HomeForm({ homeForm }) {
