@@ -1,22 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { RoomCard } from "../../components/RoomCard";
 import { makeStyles } from "@material-ui/core/styles";
 import style from "../../theme/style/Components/RoomCard";
-import { Grid, Typography } from "@material-ui/core";
-import Navbar from "../../components/Navbar";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles(style);
 
-function ListPage({ rooms }) {
+function ListPage({ idHome }) {
   const classes = useStyles();
 
+  const [dataRooms, getDataRooms] = useState([]);
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/rooms/roomHome?idHome=${idHome}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const rooms = data.data;
+      getDataRooms(rooms);
+    }
+    getDeviceData();
+  }, []);
+
   const renderRooms = () => {
-    if (rooms.length === 0) {
+    if (dataRooms.length === 0) {
       return <h1>No rooms yet</h1>;
     }
 
-    return rooms.map((room) => <RoomCard key={room.id} room={room} />);
+    return dataRooms.map((room) => <RoomCard key={room.id} room={room} />);
   };
 
   return (
@@ -30,13 +40,9 @@ function ListPage({ rooms }) {
 
 export const getServerSideProps = async (req, res) => {
   const idHome = req.query.idHome;
-  const { data: rooms } = await axios.get(
-    `http://localhost:3000/api/rooms/roomHome?idHome=${idHome}`
-  );
-
   return {
     props: {
-      rooms: rooms,
+      idHome: idHome,
     },
   };
 };

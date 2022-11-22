@@ -1,16 +1,28 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { makeStyles } from "@material-ui/core/styles";
 import style from "../../theme/style/Pages/EditPage";
 
 const useStyles = makeStyles(style);
 
-function ProductPage({ home }) {
+function ProductPage({ idContext }) {
   const router = useRouter();
-  console.log("home", home[0]);
+
+  const [home, getDataHomes] = useState([]);
+
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/homes/${idContext}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const homes = data.data;
+      getDataHomes(homes[0]);
+    }
+    getDeviceData();
+  }, []);
+
   const handlerDelete = async (id) => {
     try {
       await axios.delete("/api/homes/" + id);
@@ -35,7 +47,7 @@ function ProductPage({ home }) {
             justifyContent='flex-start'
           >
             <Typography variant='h2' component='h1'>
-              {home[0].id}
+              {home.length == 0 ? "Loading" : home.id}
             </Typography>
           </Grid>
           <Grid
@@ -44,22 +56,21 @@ function ProductPage({ home }) {
             justifyContent='flex-start'
           >
             <Typography variant='h2' component='h1'>
-              {home[0].address.charAt(0).toUpperCase() +
-                home[0].address.slice(1)}
+              {home.address?.charAt(0).toUpperCase() + home.address?.slice(1)}
             </Typography>
           </Grid>
           <Grid container className={classes.buttons}>
             <Button
               variant='contained'
               color='primary'
-              onClick={() => router.push("/homes/edit/" + home[0].id)}
+              onClick={() => router.push("/homes/edit/" + home.id)}
             >
               Edit
             </Button>
             <Button
               variant='contained'
               color='default'
-              onClick={() => handlerDelete(home[0].id)}
+              onClick={() => handlerDelete(home.id)}
               className={classes.buttonDelete}
             >
               delete
@@ -72,13 +83,11 @@ function ProductPage({ home }) {
 }
 
 export const getServerSideProps = async (context) => {
-  const { data: home } = await axios.get(
-    `http://localhost:3000/api/homes/` + context.query.id
-  );
+  const idContext = context.params.id;
 
   return {
     props: {
-      home,
+      idContext: idContext,
     },
   };
 };

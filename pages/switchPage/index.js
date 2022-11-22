@@ -7,29 +7,28 @@ import axios from "axios";
 
 const useStyles = makeStyles(style);
 
-function index({ rooms, idUser }) {
+function index({ idUser, idHome }) {
   const classes = useStyles();
+  const [dataRooms, getDataRooms] = useState([]);
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/rooms/?idHome=${idHome}&idUser=${idUser}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const rooms = data.data;
+      getDataRooms(rooms);
+    }
+    getDeviceData();
+  }, []);
+
   const renderRooms = () => {
-    if (rooms.length === 0) {
+    if (dataRooms.length === 0) {
       return <h1>No rooms yet</h1>;
     }
 
-    return rooms.map((room) => (
+    return dataRooms.map((room) => (
       <SwitchContainer key={room.id} room={room} idUser={idUser} />
     ));
   };
-
-  const [dataUsers, setdataUsers] = useState([]);
-
-  useEffect(() => {
-    async function getPageData() {
-      const apiUrlEndPoint = `http://localhost:3000/api/auth/user`;
-      const response = await fetch(apiUrlEndPoint);
-      const result = await response.json();
-      setdataUsers(result.users);
-    }
-    getPageData();
-  }, []);
 
   return (
     <Grid container direction='row' justifyContent='center' alignItems='center'>
@@ -43,15 +42,10 @@ function index({ rooms, idUser }) {
 export const getServerSideProps = async (req, res) => {
   const idHome = req.query.idHome;
   const idUser = req.query.idUser;
-
-  const { data: rooms } = await axios.get(
-    `http://localhost:3000/api/rooms/?idHome=${idHome}&idUser=${idUser}`
-  );
-
   return {
     props: {
-      rooms: rooms,
       idUser: idUser,
+      idHome: idHome,
     },
   };
 };

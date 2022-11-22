@@ -17,7 +17,7 @@ import { withIronSession } from "next-iron-session";
 
 const useStyles = makeStyles(style);
 
-export default function NewPage({ user }) {
+export default function NewPage() {
   const [dataUser, setdataUser] = useState([]);
   useEffect(() => {
     const getUser = async () => {

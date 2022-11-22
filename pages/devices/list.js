@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { DeviceCard } from "../../components/DeviceCard";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,15 +9,26 @@ import Navbar from "../../components/Navbar";
 
 const useStyles = makeStyles(style);
 
-function ListPage({ devices }) {
+function ListPage({ idHome }) {
   const classes = useStyles();
 
+  const [dataDevices, getDataDevices] = useState([]);
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/devices/?idHome=${idHome}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const devices = data.data;
+      getDataDevices(devices);
+    }
+    getDeviceData();
+  }, []);
+
   const renderDevices = () => {
-    if (devices.length === 0) {
+    if (dataDevices.length === 0) {
       return <h1>No devices yet</h1>;
     }
 
-    return devices.map((device) => (
+    return dataDevices.map((device) => (
       <DeviceCard key={device.id} device={device} />
     ));
   };
@@ -33,14 +44,10 @@ function ListPage({ devices }) {
 
 export const getServerSideProps = async (req, res) => {
   const idHome = req.query.idHome;
-  const { data: devices } = await axios.get(
-    // `http://localhost:3000/api/devices/filterDevice?idHome=${idHome}`
-    `http://localhost:3000/api/devices/?idHome=${idHome}`
-  );
 
   return {
     props: {
-      devices: devices,
+      idHome: idHome,
     },
   };
 };

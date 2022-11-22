@@ -1,21 +1,33 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { makeStyles } from "@material-ui/core/styles";
 import style from "../../theme/style/Pages/EditPage";
 
 const useStyles = makeStyles(style);
 
-function AccessPage({ access }) {
+function AccessPage({ userContext }) {
   const router = useRouter();
+
+  const [access, getDataAccess] = useState([]);
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/accesss/${userContext.id}?idUser=${userContext.idUser}&idDevice=${userContext.idDevice}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const access = data.data;
+      getDataAccess(access);
+    }
+    getDeviceData();
+  }, []);
+
   const handlerDelete = async (id) => {
     try {
       await axios.delete(
         `/api/accesss/${id}?idUser=${access.idUser}&idDevice=${access.idDevice}`
       );
-      router.push("/accesss/list");
+      router.push("/master");
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -32,8 +44,8 @@ function AccessPage({ access }) {
             justifyContent='flex-start'
           >
             <Typography variant='h2' component='h1'>
-              {access.userName.charAt(0).toUpperCase() +
-                access.userName.slice(1)}
+              {access.userName?.charAt(0).toUpperCase() +
+                access.userName?.slice(1)}
             </Typography>
           </Grid>
           <Grid
@@ -42,8 +54,8 @@ function AccessPage({ access }) {
             justifyContent='flex-start'
           >
             <Typography variant='h3' component='h1'>
-              {access.deviceName.charAt(0).toUpperCase() +
-                access.deviceName.slice(1)}
+              {access.deviceName?.charAt(0).toUpperCase() +
+                access.deviceName?.slice(1)}
             </Typography>
           </Grid>
           <Grid
@@ -52,7 +64,7 @@ function AccessPage({ access }) {
             justifyContent='flex-start'
           >
             <Typography variant='h3' component='h1'>
-              {access.status == "1" ? "Granted" : "Denied"}
+              {access?.status == "1" ? "Granted" : "Denied"}
             </Typography>
           </Grid>
           <Grid container className={classes.buttons}>
@@ -72,16 +84,11 @@ function AccessPage({ access }) {
 }
 
 export const getServerSideProps = async (context) => {
-  const { data: access } = await axios.get(
-    `http://localhost:3000/api/accesss/${context.query.userId}` +
-      `?idUser=${context.query.idUser}` +
-      `&idDevice=${context.query.idDevice}`
+  const userContext = context.query;
 
-    //`http://localhost:3000/api/accesss/${context.query.idUser}?idUser=${context.query.idUser}&idDevice=${context.query.idDevice}`
-  );
   return {
     props: {
-      access,
+      userContext: userContext,
     },
   };
 };

@@ -17,7 +17,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 
-
 const useStyles = makeStyles(style);
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -29,10 +28,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function personRegisterContainer(props) {
   const { registerPage } = props;
-  console.log(
-    "🚀 ~ file: personRegisterContainer.js ~ line 30 ~ personRegisterContainer ~ registerPage",
-    registerPage
-  );
   const classes = useStyles();
   const [person, setperson] = useState({
     firstName: "",
@@ -115,11 +110,15 @@ function personRegisterContainer(props) {
               <Typography variant='h4' component='h1'>
                 {router.query?.id ? "Actualizar Perfil" : "Registrarse"}
               </Typography>
-              <Link href='/login'>
-                <Typography variant='h6' component='h6'>
-                  Ingresar
-                </Typography>
-              </Link>
+              {router.query?.id ? null : (
+                <>
+                  <Link href='/login'>
+                    <Typography variant='h6' component='h6'>
+                      Ingresar
+                    </Typography>
+                  </Link>
+                </>
+              )}
             </Grid>
 
             <Grid container item justifyContent='center'>

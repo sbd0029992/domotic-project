@@ -1,19 +1,31 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { makeStyles } from "@material-ui/core/styles";
 import style from "../../theme/style/Pages/EditPage";
 
 const useStyles = makeStyles(style);
 
-function ProductPage({ device }) {
+function ProductPage({ idContext }) {
   const router = useRouter();
+
+  const [device, getDataDevices] = useState([]);
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/devices/${idContext}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const devices = data.data;
+      getDataDevices(devices);
+    }
+    getDeviceData();
+  }, []);
+
   const handlerDelete = async (id) => {
     try {
       await axios.delete("/api/devices/" + id);
-      router.push("/devices/list");
+      router.push("/master");
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -29,8 +41,8 @@ function ProductPage({ device }) {
             justifyContent='flex-start'
           >
             <Typography variant='h2' component='h1'>
-              {device.deviceName.charAt(0).toUpperCase() +
-                device.deviceName.slice(1)}
+              {device.deviceName?.charAt(0).toUpperCase() +
+                device.deviceName?.slice(1)}
             </Typography>
           </Grid>
           <Grid
@@ -39,7 +51,8 @@ function ProductPage({ device }) {
             justifyContent='flex-start'
           >
             <Typography variant='h3' component='h1'>
-              {device.urlDevice}
+              {device.urlDevice?.charAt(0).toUpperCase() +
+                device.urlDevice?.slice(1)}
             </Typography>
           </Grid>
           <Grid
@@ -48,7 +61,8 @@ function ProductPage({ device }) {
             justifyContent='flex-start'
           >
             <Typography variant='h3' component='h1'>
-              {device.roomName}
+              {device.roomName?.charAt(0).toUpperCase() +
+                device.roomName?.slice(1)}
             </Typography>
           </Grid>
           <Grid container className={classes.buttons}>
@@ -75,13 +89,11 @@ function ProductPage({ device }) {
 }
 
 export const getServerSideProps = async (context) => {
-  const { data: device } = await axios.get(
-    `http://localhost:3000/api/devices/` + context.query.id
-  );
+  const idContext = context.params.id;
 
   return {
     props: {
-      device,
+      idContext: idContext,
     },
   };
 };

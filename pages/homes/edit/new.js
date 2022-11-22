@@ -10,7 +10,6 @@ import axios from "axios";
 const useStyles = makeStyles(style);
 
 export default function NewPage(props) {
-  console.log("🚀 ~ file: new.js ~ line 13 ~ NewPage ~ props", props);
   const router = useRouter();
   const classes = useStyles();
   const [home, setHome] = useState({

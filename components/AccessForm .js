@@ -17,10 +17,30 @@ import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles(style);
 export function AccessForm({ user, accessForm }) {
+  const classes = useStyles();
   const router = useRouter();
+  const [access, setAccess] = useState({
+    idUser: "",
+    idDevice: "",
+  });
+
   const [dataUser, setdataUser] = useState([]);
-  const [dataDevices, setdataDevices] = useState([]);
-  const [dataUsers, setdataUsers] = useState([]);
+  const [dataResponse, setDataResponse] = useState([]);
+  const dataResponseUsers = dataResponse[0];
+  const dataResponseDevices = dataResponse[1];
+
+  useEffect(() => {
+    const getUser = async () => {
+      let one = `/api/accesss/listUsers/?idHome=${user.idHome}`;
+      let two = `/api/accesss/listDevices/?idHome=${user.idHome}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const [data2] = await Promise.all([axios.get(two)]);
+      const users = data.data.users;
+      const devices = data2.data.devices;
+      setDataResponse([users, devices]);
+    };
+    getUser();
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {
@@ -29,31 +49,7 @@ export function AccessForm({ user, accessForm }) {
     };
     getUser();
   }, []);
-  useEffect(() => {
-    async function getDeviceData() {
-      const apiUrlEndPoint = `http://localhost:3000/api/accesss/listDevices/?idHome=${user.idHome}`;
-      const response = await fetch(apiUrlEndPoint);
-      const result = await response.json();
-      setdataDevices(result.devices);
-    }
-    getDeviceData();
-  }, []);
 
-  useEffect(() => {
-    async function getPageData() {
-      const apiUrlEndPoint = `http://localhost:3000/api/accesss/listUsers/?idHome=${user.idHome}`;
-      const response = await fetch(apiUrlEndPoint);
-      const result = await response.json();
-      setdataUsers(result.users);
-    }
-    getPageData();
-  }, []);
-
-  const classes = useStyles();
-  const [access, setAccess] = useState({
-    idUser: "",
-    idDevice: "",
-  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -109,7 +105,7 @@ export function AccessForm({ user, accessForm }) {
                 className={classes.selectStyle}
               >
                 <option value=''>{accessForm.selectUser}</option>
-                {dataUsers.map((users) => (
+                {dataResponseUsers?.map((users) => (
                   <option
                     onChange={handleChange}
                     key={users.idUser}
@@ -135,7 +131,7 @@ export function AccessForm({ user, accessForm }) {
                 className={classes.selectStyle}
               >
                 <option value=''>{accessForm.selectDevice}</option>
-                {dataDevices.map((devices) => (
+                {dataResponseDevices?.map((devices) => (
                   <option
                     onChange={handleChange}
                     key={devices.id}

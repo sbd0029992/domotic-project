@@ -11,7 +11,7 @@ export default (theme) => ({
     alignItems: "center",
     color: "#000",
     margin: "auto",
-    marginTop: "10%",
+    // marginTop: "10%",
   },
   RoomName: {
     placeContent: "center",

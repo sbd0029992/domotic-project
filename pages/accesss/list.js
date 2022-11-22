@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { AccessCard } from "../../components/AccessCard";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,17 +8,24 @@ import Navbar from "../../components/Navbar";
 
 const useStyles = makeStyles(style);
 
-function ListPage({ accesss }) {
+function ListPage({ idHome }) {
   const classes = useStyles();
+  const [dataAccess, getDataAccess] = useState([]);
+  useEffect(() => {
+    async function getDeviceData() {
+      let one = `/api/accesss/?idHome=${idHome}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const access = data.data;
+      getDataAccess(access);
+    }
+    getDeviceData();
+  }, []);
 
   const renderAccesss = () => {
-    if (accesss.length === 0) {
+    if (dataAccess.length === 0) {
       return <h1>No accesss yet</h1>;
     }
-
-    console.log(accesss);
-
-    return accesss.map((access) => (
+    return dataAccess.map((access) => (
       <AccessCard key={access.idUser} access={access} />
     ));
   };
@@ -34,14 +41,9 @@ function ListPage({ accesss }) {
 
 export const getServerSideProps = async (req, res) => {
   const idHome = req.query.idHome;
-  const { data: accesss } = await axios.get(
-    // "http://localhost:3000/api/accesss"
-    `http://localhost:3000/api/accesss/?idHome=${idHome}`
-  );
-
   return {
     props: {
-      accesss: accesss,
+      idHome: idHome,
     },
   };
 };

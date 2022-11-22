@@ -4,6 +4,7 @@ import style from "../theme/style/Components/SwitchContainer";
 import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import ConfigContainer from "./configContainer";
+import axios from "axios";
 
 const useStyles = makeStyles(style);
 export function SwitchContainer({ room, idUser }) {
@@ -13,10 +14,10 @@ export function SwitchContainer({ room, idUser }) {
 
   useEffect(() => {
     async function getDeviceData() {
-      const apiUrlEndPoint = `http://localhost:3000/api/accesss/listDevicesFilter/?idUser=${idUser}&idRoom=${room.id}`;
-      const response = await fetch(apiUrlEndPoint);
-      const result = await response.json();
-      setdataDevices(result.devices);
+      let one = `/api/accesss/listDevicesFilter/?idUser=${idUser}&idRoom=${room.id}`;
+      const [data] = await Promise.all([axios.get(one)]);
+      const devices = data.data.devices;
+      setdataDevices(devices);
     }
     getDeviceData();
   }, []);

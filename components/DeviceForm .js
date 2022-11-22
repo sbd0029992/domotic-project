@@ -19,7 +19,15 @@ import "react-toastify/dist/ReactToastify.css";
 const useStyles = makeStyles(style);
 export function DeviceForm({ user, deviceForm }) {
   const router = useRouter();
+  const classes = useStyles();
+  const [device, setDevice] = useState({
+    deviceName: "",
+    urlDevice: "",
+    idRoom: "",
+  });
+
   const [dataUser, setdataUser] = useState([]);
+
   useEffect(() => {
     const getUser = async () => {
       const { data } = await axios.get("/api/auth/user");
@@ -28,12 +36,24 @@ export function DeviceForm({ user, deviceForm }) {
     getUser();
   }, []);
 
-  const classes = useStyles();
-  const [device, setDevice] = useState({
-    deviceName: "",
-    urlDevice: "",
-    idRoom: "",
-  });
+  const [dataResponse, setdataResponse] = useState([]);
+
+  useEffect(() => {
+    async function getPageData() {
+      if (router.query.id) {
+        let one = `/api/rooms/filterHome/?idHome=${dataUser.idHome}`;
+        const [data] = await Promise.all([axios.get(one)]);
+        const rooms = data.data.devices;
+        setdataResponse(rooms);
+      } else {
+        let two = `/api/rooms/filterHome/?idHome=${user.idHome}`;
+        const [data] = await Promise.all([axios.get(two)]);
+        const rooms = data.data.devices;
+        setdataResponse(rooms);
+      }
+    }
+    getPageData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,25 +84,6 @@ export function DeviceForm({ user, deviceForm }) {
     if (router.query?.id) {
       getRoom(router.query.id);
     }
-  }, []);
-
-  const [dataResponse, setdataResponse] = useState([]);
-
-  useEffect(() => {
-    async function getPageData() {
-      if (router.query.id) {
-        const apiUrlEndPoint = `http://localhost:3000/api/rooms/filterHome/?idHome=${dataUser.idHome}`;
-        const response = await fetch(apiUrlEndPoint);
-        const result = await response.json();
-        setdataResponse(result.devices);
-      } else {
-        const apiUrlEndPoint = `http://localhost:3000/api/rooms/filterHome/?idHome=${user.idHome}`;
-        const response = await fetch(apiUrlEndPoint);
-        const result = await response.json();
-        setdataResponse(result.devices);
-      }
-    }
-    getPageData();
   }, []);
 
   return (
