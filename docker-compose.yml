@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   domotica:
+    container_name: domotica-project
     ports:
       - 3000:3000
     build:
