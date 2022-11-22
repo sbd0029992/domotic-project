@@ -22,7 +22,7 @@ function index({ idUser, idHome }) {
 
   const renderRooms = () => {
     if (dataRooms.length === 0) {
-      return <h1>No rooms yet</h1>;
+      return <React.Fragment></React.Fragment>;
     }
 
     return dataRooms.map((room) => (
