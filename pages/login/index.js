@@ -14,6 +14,7 @@ const userService = userServiceFactory();
 const useStyles = makeStyles(style);
 
 export default function Login(props) {
+  console.log("🚀 ~ file: index.js ~ line 17 ~ Login ~ props", props);
   const { login } = props;
   const classes = useStyles();
   const { user, mutateUser } = useUser({

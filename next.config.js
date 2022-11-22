@@ -1,11 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+});
 
-//module.exports = nextConfig;
-
-module.exports = {
+module.exports = withPWA({
   output: "standalone",
   i18n: {
     defaultLocale: "es",
@@ -14,22 +13,10 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: "/new",
+        source: "/",
         destination: "/login",
         permanent: true,
       },
     ];
   },
-};
-
-// module.exports = {
-// async redirects() {
-//   return [
-//     {
-//       source: "/new",
-//       destination: "/login",
-//       permanent: true,
-//     },
-//   ];
-// },
-// };
+});
